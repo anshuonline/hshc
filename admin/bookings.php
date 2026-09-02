@@ -114,9 +114,12 @@ if (isset($_GET['export']) && $_GET['export'] === 'spreadsheet') {
         $params[] = $_GET['payment_status'];
     }
     
-    if (!empty($_GET['booking_number'])) {
-        $whereClause .= $whereClause ? " AND b.booking_number LIKE ?" : "WHERE b.booking_number LIKE ?";
-        $params[] = '%' . $_GET['booking_number'] . '%';
+    if (!empty($_GET['search'])) {
+        $search = '%' . $_GET['search'] . '%';
+        $whereClause .= $whereClause ? " AND (b.booking_number LIKE ? OR u.email LIKE ? OR u.phone LIKE ?)" : "WHERE (b.booking_number LIKE ? OR u.email LIKE ? OR u.phone LIKE ?)";
+        $params[] = $search;
+        $params[] = $search;
+        $params[] = $search;
     }
     
     $stmt = $pdo->prepare("SELECT b.*, u.name as user_name FROM bookings b LEFT JOIN users u ON b.user_id = u.id $whereClause ORDER BY b.created_at DESC");
@@ -179,9 +182,12 @@ if (!empty($_GET['payment_status'])) {
     $params[] = $_GET['payment_status'];
 }
 
-if (!empty($_GET['booking_number'])) {
-    $whereClause .= $whereClause ? " AND b.booking_number LIKE ?" : "WHERE b.booking_number LIKE ?";
-    $params[] = '%' . $_GET['booking_number'] . '%';
+if (!empty($_GET['search'])) {
+    $search = '%' . $_GET['search'] . '%';
+    $whereClause .= $whereClause ? " AND (b.booking_number LIKE ? OR u.email LIKE ? OR u.phone LIKE ?)" : "WHERE (b.booking_number LIKE ? OR u.email LIKE ? OR u.phone LIKE ?)";
+    $params[] = $search;
+    $params[] = $search;
+    $params[] = $search;
 }
 
 $stmt = $pdo->prepare("SELECT b.*, u.name as user_name, r.name as room_name FROM bookings b LEFT JOIN users u ON b.user_id = u.id LEFT JOIN rooms r ON b.room_id = r.id $whereClause ORDER BY b.created_at DESC");
@@ -467,8 +473,8 @@ try {
                     </div>
                     
                     <div>
-                        <label for="booking_number" class="block text-sm font-medium text-gray-700 mb-1">Booking Number</label>
-                        <input type="text" id="booking_number" name="booking_number" value="<?php echo isset($_GET['booking_number']) ? htmlspecialchars($_GET['booking_number']) : ''; ?>" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-primary transition" placeholder="Search by booking number">
+                        <label for="search" class="block text-sm font-medium text-gray-700 mb-1">Search</label>
+                        <input type="text" id="search" name="search" value="<?php echo isset($_GET['search']) ? htmlspecialchars($_GET['search']) : ''; ?>" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-primary transition" placeholder="Ref/Email/Phone">
                     </div>
                     
                     <div>
@@ -618,7 +624,7 @@ try {
                                     <div class="bg-gray-50 p-4 rounded-lg">
                                         <p class="text-sm text-gray-600">Total Price</p>
                                         <p class="font-bold text-lg mt-1">₹<?php echo number_format($booking['total_price'] ?? 0, 2); ?></p>
-                                        <p class="text-sm text-gray-500 mt-1">Booked on <?php echo date('M j, Y', strtotime($booking['created_at'])); ?></p>
+                                        <p class="text-sm text-gray-500 mt-1">Booked on <?php echo date('M j, Y, h:i A', strtotime($booking['created_at'])); ?></p>
                                     </div>
                                 </div>
                                 
