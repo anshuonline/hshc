@@ -128,6 +128,7 @@ foreach ($rooms as $room) {
                         'price' => $room['price'],
                         'capacity' => $room['capacity'],
                         'amenities' => $room['amenities'],
+                        'room_overview_options' => $room['room_overview_options'],
                         'images' => $room_images[$room['id']]
                     ]), ENT_QUOTES, 'UTF-8');
                     ?>
@@ -216,7 +217,7 @@ foreach ($rooms as $room) {
             
             <p id="rm-desc" class="text-gray-400 font-sans text-sm leading-relaxed font-light mb-8"></p>
             
-            <div class="grid grid-cols-2 gap-4 mb-8">
+            <div id="rm-overview-options" class="grid grid-cols-2 gap-4 mb-8">
                 <div class="flex items-center text-gray-300 font-sans text-sm">
                     <i class="fas fa-user-friends text-accent w-6 text-center mr-2"></i>
                     <span>Up to <span id="rm-capacity"></span> Guests</span>
@@ -291,21 +292,59 @@ foreach ($rooms as $room) {
         // Amenities
         const amenitiesContainer = document.getElementById('rm-amenities');
         amenitiesContainer.innerHTML = '';
-        let amenities = [];
+        let amenities = {};
         try {
-            if(roomData.amenities) amenities = JSON.parse(roomData.amenities) || [];
+            if(roomData.amenities) amenities = JSON.parse(roomData.amenities) || {};
         } catch(e) {}
         
-        if (amenities.length > 0) {
-            amenities.forEach(am => {
-                amenitiesContainer.innerHTML += `
-                    <div class="flex items-center text-gray-400 font-sans text-xs">
-                        <i class="fas fa-check text-accent/50 w-4 mr-2 text-[10px]"></i>
-                        <span>${am}</span>
-                    </div>`;
-            });
-        } else {
+        let hasAmenities = false;
+        if (typeof amenities === 'object' && amenities !== null) {
+            for (const [key, value] of Object.entries(amenities)) {
+                if (value) {
+                    hasAmenities = true;
+                    amenitiesContainer.innerHTML += `
+                        <div class="flex items-center text-gray-400 font-sans text-xs capitalize">
+                            <i class="fas fa-check text-accent/50 w-4 mr-2 text-[10px]"></i>
+                            <span>${key.replace(/_/g, ' ')}</span>
+                        </div>`;
+                }
+            }
+        }
+        
+        if (!hasAmenities) {
             amenitiesContainer.innerHTML = '<p class="text-gray-500 text-xs italic">No specific amenities listed.</p>';
+        }
+        
+        // Custom Room Overview Options
+        const overviewContainer = document.getElementById('rm-overview-options');
+        if (overviewContainer) {
+            overviewContainer.innerHTML = '';
+            let overviewOptions = [];
+            try {
+                if(roomData.room_overview_options) overviewOptions = JSON.parse(roomData.room_overview_options) || [];
+            } catch(e) {}
+            
+            if (overviewOptions.length > 0) {
+                overviewOptions.forEach(opt => {
+                    overviewContainer.innerHTML += `
+                        <div class="flex items-center text-gray-300 font-sans text-sm">
+                            <i class="fas ${opt.icon} text-accent w-6 mr-2"></i>
+                            <span>${opt.title}</span>
+                        </div>`;
+                });
+            } else {
+                // Default options
+                overviewContainer.innerHTML = `
+                    <div class="flex items-center text-gray-300 font-sans text-sm">
+                        <i class="fas fa-user-friends text-accent w-6 mr-2"></i>
+                        <span>Up to ${roomData.capacity} Guests</span>
+                    </div>
+                    <div class="flex items-center text-gray-300 font-sans text-sm">
+                        <i class="fas fa-bed text-accent w-6 mr-2"></i>
+                        <span>Premium Bedding</span>
+                    </div>
+                `;
+            }
         }
         
         // Images
