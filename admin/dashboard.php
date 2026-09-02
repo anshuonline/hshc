@@ -13,15 +13,16 @@ $stmt = $pdo->prepare("SELECT authy_setup_complete FROM admins WHERE id = ?");
 $stmt->execute([$_SESSION['admin_id']]);
 $admin = $stmt->fetch(PDO::FETCH_ASSOC);
 
-if ($admin && $admin['authy_setup_complete'] == 1) {
-    if (!isset($_SESSION['authy_verified']) || $_SESSION['authy_verified'] !== true) {
-        header('Location: verify_2fa.php');
-        exit;
-    }
-} else {
-    header('Location: setup_2fa.php');
-    exit;
-}
+// 2FA disabled temporarily
+// if ($admin && $admin['authy_setup_complete'] == 1) {
+//     if (!isset($_SESSION['authy_verified']) || $_SESSION['authy_verified'] !== true) {
+//         header('Location: verify_2fa.php');
+//         exit;
+//     }
+// } else {
+//     header('Location: setup_2fa.php');
+//     exit;
+// }
 
 // Fetch statistics
 $stats = [

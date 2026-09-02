@@ -15,12 +15,13 @@ if (isset($_SESSION['admin_logged_in']) && $_SESSION['admin_logged_in']) {
     $stmt->execute([$_SESSION['admin_id']]);
     $admin = $stmt->fetch(PDO::FETCH_ASSOC);
     
-    if ($admin && $admin['authy_setup_complete'] == 1) {
-        if (!isset($_SESSION['authy_verified']) || $_SESSION['authy_verified'] !== true) {
-            header('Location: admin/verify_2fa.php');
-            exit;
-        }
-    }
+    // 2FA disabled temporarily
+    // if ($admin && $admin['authy_setup_complete'] == 1) {
+    //     if (!isset($_SESSION['authy_verified']) || $_SESSION['authy_verified'] !== true) {
+    //         header('Location: admin/verify_2fa.php');
+    //         exit;
+    //     }
+    // }
     
     header('Location: admin/dashboard.php');
     exit;
@@ -49,16 +50,18 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 $_SESSION['admin_username'] = $admin['username'];
                 $_SESSION['admin_email'] = $admin['email'];
                 
-                // Check if 2FA is set up
-                if ($admin['authy_setup_complete'] == 1) {
-                    // Redirect to 2FA verification
-                    header('Location: admin/verify_2fa.php');
-                    exit;
-                } else {
-                    // Redirect to 2FA setup
-                    header('Location: admin/setup_2fa.php');
-                    exit;
-                }
+                $_SESSION['authy_verified'] = true; // Bypass 2FA
+                
+                // 2FA disabled temporarily
+                // if ($admin['authy_setup_complete'] == 1) {
+                //     header('Location: admin/verify_2fa.php');
+                //     exit;
+                // } else {
+                //     header('Location: admin/setup_2fa.php');
+                //     exit;
+                // }
+                header('Location: admin/dashboard.php');
+                exit;
             } else {
                 $error = 'Invalid admin credentials.';
             }
