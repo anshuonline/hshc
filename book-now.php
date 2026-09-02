@@ -153,8 +153,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 $totalPrice
             ]);
             
+            $bookingId = $pdo->lastInsertId();
+            
             // Prepare booking details array for the email
             $bookingDetails = [
+                'id' => $bookingId,
                 'booking_number' => $bookingNumber,
                 'check_in' => $check_in,
                 'check_out' => $check_out,

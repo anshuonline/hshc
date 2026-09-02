@@ -159,7 +159,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['update_room'])) {
     if (isset($_POST['amenity_name']) && is_array($_POST['amenity_name'])) {
         for ($i = 0; $i < count($_POST['amenity_name']); $i++) {
             $amenity_name = trim($_POST['amenity_name'][$i]);
-            $is_available = isset($_POST['amenity_available'][$i]) ? true : false;
+            // Use indexed checkbox: amenity_available_0, amenity_available_1, etc.
+            $is_available = isset($_POST['amenity_available_' . $i]) ? true : false;
             
             if (!empty($amenity_name)) {
                 $amenities[$amenity_name] = $is_available;
@@ -167,7 +168,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['update_room'])) {
         }
     }
     
-    $amenities_json = json_encode($amenities);
+    $amenities_json = !empty($amenities) ? json_encode($amenities) : null;
     
     if (empty($name) || $price <= 0) {
         $error = 'Please provide a valid room name and price.';
@@ -594,7 +595,7 @@ if ($room_id > 0) {
                                         if (!empty($room_amenities)) {
                                             foreach ($room_amenities as $amenity => $available) {
                                                 echo '<div class="flex items-center p-3 bg-gray-50 rounded-lg">';
-                                                echo '<input type="checkbox" id="amenity_' . $amenity_count . '" name="amenity_available[]" value="1" class="h-5 w-5 text-green-600 rounded" ' . ($available ? 'checked' : '') . '>';
+                                                echo '<input type="checkbox" id="amenity_' . $amenity_count . '" name="amenity_available_' . $amenity_count . '" value="1" class="h-5 w-5 text-green-600 rounded" ' . ($available ? 'checked' : '') . '>';
                                                 echo '<input type="text" name="amenity_name[]" value="' . htmlspecialchars($amenity) . '" class="ml-3 form-input flex-1" placeholder="Enter amenity">';
                                                 echo '<button type="button" class="ml-2 bg-red-100 hover:bg-red-200 text-red-600 rounded-full w-8 h-8 flex items-center justify-center remove-amenity">';
                                                 echo '<i class="fas fa-times text-sm"></i>';
@@ -607,7 +608,7 @@ if ($room_id > 0) {
                                         // Add at least one empty field for new amenities
                                         if ($amenity_count == 0) {
                                             echo '<div class="flex items-center p-3 bg-gray-50 rounded-lg">';
-                                            echo '<input type="checkbox" id="amenity_0" name="amenity_available[]" value="1" class="h-5 w-5 text-green-600 rounded" checked>';
+                                            echo '<input type="checkbox" id="amenity_0" name="amenity_available_0" value="1" class="h-5 w-5 text-green-600 rounded" checked>';
                                             echo '<input type="text" name="amenity_name[]" class="ml-3 form-input flex-1" placeholder="Enter amenity">';
                                             echo '<button type="button" class="ml-2 bg-red-100 hover:bg-red-200 text-red-600 rounded-full w-8 h-8 flex items-center justify-center remove-amenity">';
                                             echo '<i class="fas fa-times text-sm"></i>';
@@ -809,7 +810,7 @@ if ($room_id > 0) {
             const newItem = document.createElement('div');
             newItem.className = 'flex items-center p-3 bg-gray-50 rounded-lg';
             newItem.innerHTML = `
-                <input type="checkbox" id="amenity_${itemCount}" name="amenity_available[]" value="1" class="h-5 w-5 text-green-600 rounded" checked>
+                <input type="checkbox" id="amenity_${itemCount}" name="amenity_available_${itemCount}" value="1" class="h-5 w-5 text-green-600 rounded" checked>
                 <input type="text" name="amenity_name[]" class="ml-3 form-input flex-1" placeholder="Enter amenity">
                 <button type="button" class="ml-2 bg-red-100 hover:bg-red-200 text-red-600 rounded-full w-8 h-8 flex items-center justify-center remove-amenity">
                     <i class="fas fa-times text-sm"></i>
@@ -852,7 +853,7 @@ if ($room_id > 0) {
                     const newItem = document.createElement('div');
                     newItem.className = 'flex items-center p-3 bg-gray-50 rounded-lg';
                     newItem.innerHTML = `
-                        <input type="checkbox" id="amenity_${itemCount}" name="amenity_available[]" value="1" class="h-5 w-5 text-green-600 rounded" checked>
+                        <input type="checkbox" id="amenity_${itemCount}" name="amenity_available_${itemCount}" value="1" class="h-5 w-5 text-green-600 rounded" checked>
                         <input type="text" name="amenity_name[]" value="${amenity}" class="ml-3 form-input flex-1" placeholder="Enter amenity">
                         <button type="button" class="ml-2 bg-red-100 hover:bg-red-200 text-red-600 rounded-full w-8 h-8 flex items-center justify-center remove-amenity">
                             <i class="fas fa-times text-sm"></i>
@@ -937,6 +938,19 @@ if ($room_id > 0) {
             // Redirect to rooms.php with room ID and action
             window.location.href = 'rooms.php?room_id=' + roomId + '&action=images';
         }
+        // Re-index amenity checkboxes before form submission
+        // This ensures checkbox indices match amenity_name[] indices even after deletions
+        document.querySelector('form').addEventListener('submit', function(e) {
+            const container = document.getElementById('amenities-container');
+            const items = container.querySelectorAll('.flex.items-center.p-3.bg-gray-50.rounded-lg');
+            items.forEach(function(item, index) {
+                const checkbox = item.querySelector('input[type="checkbox"]');
+                if (checkbox) {
+                    checkbox.id = 'amenity_' + index;
+                    checkbox.name = 'amenity_available_' + index;
+                }
+            });
+        });
     </script>
 </body>
 </html>

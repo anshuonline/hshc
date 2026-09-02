@@ -17,6 +17,16 @@ function sendBookingConfirmationEmail($userEmail, $userName, $bookingDetails) {
     $headers .= "From: Grand Luxe Hotel <" . $fromEmail . ">" . "\r\n";
     $headers .= "Reply-To: " . $fromEmail . "\r\n";
     
+    // Generate dynamic URL for the E-Ticket
+    $protocol = isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? 'https://' : 'http://';
+    $domain = $_SERVER['HTTP_HOST'];
+    $requestUri = dirname($_SERVER['REQUEST_URI']);
+    if (substr($requestUri, -1) === '/') {
+        $requestUri = substr($requestUri, 0, -1);
+    }
+    // Link directly to the specific print-itinerary.php with the booking ID
+    $ticketUrl = $protocol . $domain . $requestUri . '/print-itinerary.php?id=' . $bookingDetails['id'];
+    
     // Variables for the email body
     $checkInDate = date('F d, Y', strtotime($bookingDetails['check_in']));
     $checkOutDate = date('F d, Y', strtotime($bookingDetails['check_out']));
@@ -68,11 +78,11 @@ function sendBookingConfirmationEmail($userEmail, $userName, $bookingDetails) {
             </div>
 
             <p style='color: #cbd5e1; font-size: 14px; line-height: 1.6; margin-bottom: 30px;'>
-                You can view, print, or download your official e-ticket directly from your account on our website. Should you require any bespoke arrangements prior to your arrival, our concierge is at your service.
+                You can view, print, or download your official e-ticket directly by clicking the link below. If you require any bespoke arrangements prior to your arrival, our concierge is at your service.
             </p>
 
             <div style='text-align: center;'>
-                <a href='http://yourwebsite.com/my-bookings.php' style='display: inline-block; padding: 14px 30px; background-color: #d4af37; color: #000000; text-decoration: none; font-weight: bold; font-size: 14px; text-transform: uppercase; letter-spacing: 2px;'>View My Booking</a>
+                <a href='{$ticketUrl}' style='display: inline-block; padding: 14px 30px; background-color: #d4af37; color: #000000; text-decoration: none; font-weight: bold; font-size: 14px; text-transform: uppercase; letter-spacing: 2px;'>View / Download E-Ticket</a>
             </div>
         </div>
 
