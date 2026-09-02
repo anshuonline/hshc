@@ -75,11 +75,23 @@ try {
     $roomOverviewOptionsExists = $stmt->fetch();
     
     if (!$roomOverviewOptionsExists) {
-        echo "Adding room_overview_options column to rooms table...\n";
+        echo "Adding room_overview_options column to rooms table...\n<br>";
         $pdo->exec("ALTER TABLE rooms ADD COLUMN room_overview_options TEXT NULL DEFAULT NULL");
-        echo "room_overview_options column added successfully.\n";
+        echo "room_overview_options column added successfully.\n<br>";
     } else {
-        echo "room_overview_options column already exists.\n";
+        echo "room_overview_options column already exists.\n<br>";
+    }
+    
+    // Check if additional_charges column exists in rooms table
+    $stmt = $pdo->query("SHOW COLUMNS FROM rooms LIKE 'additional_charges'");
+    $additionalChargesExists = $stmt->fetch();
+    
+    if (!$additionalChargesExists) {
+        echo "Adding additional_charges column to rooms table...\n<br>";
+        $pdo->exec("ALTER TABLE rooms ADD COLUMN additional_charges TEXT NULL AFTER extra_child_charge");
+        echo "additional_charges column added successfully.\n<br>";
+    } else {
+        echo "additional_charges column already exists.\n<br>";
     }
     
     // Update existing images to have default values
