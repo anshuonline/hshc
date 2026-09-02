@@ -218,14 +218,7 @@ foreach ($rooms as $room) {
             <p id="rm-desc" class="text-gray-400 font-sans text-sm leading-relaxed font-light mb-8"></p>
             
             <div id="rm-overview-options" class="grid grid-cols-2 gap-4 mb-8">
-                <div class="flex items-center text-gray-300 font-sans text-sm">
-                    <i class="fas fa-user-friends text-accent w-6 text-center mr-2"></i>
-                    <span>Up to <span id="rm-capacity"></span> Guests</span>
-                </div>
-                <div class="flex items-center text-gray-300 font-sans text-sm">
-                    <i class="fas fa-bed text-accent w-6 text-center mr-2"></i>
-                    <span>Premium Bedding</span>
-                </div>
+                <!-- Overview options injected dynamically by JS -->
             </div>
             
             <h3 class="text-lg font-serif text-white mb-4">Room Amenities</h3>
@@ -284,11 +277,12 @@ foreach ($rooms as $room) {
     
     function openRoomModal(roomData) {
         document.getElementById('rm-name').textContent = roomData.name;
-        document.getElementById('rm-price').textContent = '₹' + parseInt(roomData.price).toLocaleString();
+        document.getElementById('rm-price').textContent = '₹' + parseInt(roomData.price).toLocaleString('en-IN');
         document.getElementById('rm-desc').innerHTML = roomData.description.replace(/\n/g, '<br>');
-        document.getElementById('rm-capacity').textContent = roomData.capacity;
-        document.getElementById('rm-book-btn').href = 'book-now.php?room=' + encodeURIComponent(roomData.name);
+        document.getElementById('rm-book-btn').href = 'book-now.php?room_id=' + encodeURIComponent(roomData.id);
         
+        // Store capacity for use in default overview options
+        const capacityCount = roomData.capacity || 2;
         // Amenities
         const amenitiesContainer = document.getElementById('rm-amenities');
         amenitiesContainer.innerHTML = '';
@@ -329,15 +323,18 @@ foreach ($rooms as $room) {
                     overviewContainer.innerHTML += `
                         <div class="flex items-center text-gray-300 font-sans text-sm">
                             <i class="fas ${opt.icon} text-accent w-6 mr-2"></i>
-                            <span>${opt.title}</span>
+                            <div>
+                                <span class="font-medium">${opt.title}</span>
+                                <p class="text-gray-500 text-xs">${opt.description || ''}</p>
+                            </div>
                         </div>`;
                 });
             } else {
-                // Default options
+                // Default options using capacityCount (no DOM dependency)
                 overviewContainer.innerHTML = `
                     <div class="flex items-center text-gray-300 font-sans text-sm">
                         <i class="fas fa-user-friends text-accent w-6 mr-2"></i>
-                        <span>Up to ${roomData.capacity} Guests</span>
+                        <span>Up to ${capacityCount} Guests</span>
                     </div>
                     <div class="flex items-center text-gray-300 font-sans text-sm">
                         <i class="fas fa-bed text-accent w-6 mr-2"></i>

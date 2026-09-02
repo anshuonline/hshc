@@ -1,6 +1,7 @@
 <?php
 session_start();
 include 'config/db.php';
+include 'includes/mailer.php';
 
 // Redirect if already logged in
 if (isset($_SESSION['user_logged_in']) && $_SESSION['user_logged_in']) {
@@ -76,6 +77,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 if ($result) {
                     // Get the inserted user ID
                     $user_id = $pdo->lastInsertId();
+                    
+                    // Send Welcome Email
+                    sendWelcomeEmail($email, $name);
                     
                     // Automatically log in the user
                     $_SESSION['user_logged_in'] = true;
@@ -159,12 +163,22 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <div>
                         <label for="password" class="block text-xs uppercase tracking-widest text-gray-400 font-sans mb-2">Password</label>
-                        <input type="password" id="password" name="password" required minlength="6" class="w-full bg-transparent border-b border-white/20 text-white px-0 py-3 focus:outline-none focus:border-accent transition-colors font-sans placeholder-gray-600">
+                        <div class="relative">
+                            <input type="password" id="password" name="password" required minlength="6" class="w-full bg-transparent border-b border-white/20 text-white px-0 py-3 pr-10 focus:outline-none focus:border-accent transition-colors font-sans placeholder-gray-600">
+                            <button type="button" onclick="togglePassword('password', this)" class="absolute right-0 top-1/2 -translate-y-1/2 text-gray-400 hover:text-accent transition-colors focus:outline-none" tabindex="-1">
+                                <i class="fas fa-eye text-sm"></i>
+                            </button>
+                        </div>
                     </div>
                     
                     <div>
                         <label for="confirm_password" class="block text-xs uppercase tracking-widest text-gray-400 font-sans mb-2">Confirm Password</label>
-                        <input type="password" id="confirm_password" name="confirm_password" required minlength="6" class="w-full bg-transparent border-b border-white/20 text-white px-0 py-3 focus:outline-none focus:border-accent transition-colors font-sans placeholder-gray-600">
+                        <div class="relative">
+                            <input type="password" id="confirm_password" name="confirm_password" required minlength="6" class="w-full bg-transparent border-b border-white/20 text-white px-0 py-3 pr-10 focus:outline-none focus:border-accent transition-colors font-sans placeholder-gray-600">
+                            <button type="button" onclick="togglePassword('confirm_password', this)" class="absolute right-0 top-1/2 -translate-y-1/2 text-gray-400 hover:text-accent transition-colors focus:outline-none" tabindex="-1">
+                                <i class="fas fa-eye text-sm"></i>
+                            </button>
+                        </div>
                     </div>
                 </div>
                 
@@ -174,6 +188,20 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     </button>
                 </div>
             </form>
+
+<script>
+function togglePassword(fieldId, btn) {
+    const input = document.getElementById(fieldId);
+    const icon = btn.querySelector('i');
+    if (input.type === 'password') {
+        input.type = 'text';
+        icon.classList.replace('fa-eye', 'fa-eye-slash');
+    } else {
+        input.type = 'password';
+        icon.classList.replace('fa-eye-slash', 'fa-eye');
+    }
+}
+</script>
             
             <div class="mt-8 text-center border-t border-white/10 pt-6">
                 <p class="text-sm text-gray-400 font-sans font-light">

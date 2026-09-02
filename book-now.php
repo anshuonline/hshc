@@ -215,7 +215,23 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     <?php if ($bookingNumber): ?>
                         <p class="text-gray-400 font-sans mt-4 text-sm tracking-widest uppercase">Booking Reference: <br><span class="text-xl text-accent font-serif tracking-widest mt-2 inline-block"><?php echo htmlspecialchars($bookingNumber); ?></span></p>
                     <?php endif; ?>
-                    <p class="text-gray-500 font-sans mt-6 text-xs tracking-widest uppercase border-t border-white/10 pt-4">Status: Pending <br> (Payment details via phone)</p>
+                    
+                    <!-- Email Notification Notice -->
+                    <div class="mt-5 bg-accent/10 border border-accent/30 px-4 py-3 text-left">
+                        <div class="flex items-start gap-3">
+                            <i class="fas fa-envelope text-accent mt-0.5 text-sm flex-shrink-0"></i>
+                            <div>
+                                <p class="text-accent font-sans text-xs font-semibold uppercase tracking-widest mb-1">Confirmation Email Sent</p>
+                                <p class="text-gray-300 font-sans text-xs font-light leading-relaxed">We've sent a booking confirmation with your e-ticket to your registered email address.</p>
+                                <p class="text-yellow-400/80 font-sans text-xs mt-2 flex items-center gap-1">
+                                    <i class="fas fa-exclamation-triangle text-[10px]"></i>
+                                    If you don't see it, please check your <strong>Spam / Junk</strong> folder.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <p class="text-gray-500 font-sans mt-4 text-xs tracking-widest uppercase border-t border-white/10 pt-4">Status: Pending <br> (Payment details via phone)</p>
                 </div>
                 <div class="mt-8">
                     <button id="closeModal" class="w-full bg-accent text-[#030712] py-3 text-sm tracking-[0.2em] uppercase transition-colors hover:bg-accent-light">
