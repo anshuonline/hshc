@@ -50,13 +50,13 @@ function sendBookingConfirmationEmail($userEmail, $userName, $bookingDetails) {
             </p>
 
             <!-- Booking Details Box -->
-            <div style='background-color: #0f172a; border: 1px solid #1e293b; padding: 25px; margin: 30px 0; border-radius: 4px;'>
+            <div style='background-color: #0f172a; border: 1px solid #1e293b; padding: 15px; margin: 30px 0; border-radius: 4px;'>
                 <p style='margin: 0 0 15px 0; color: #d4af37; font-family: Georgia, serif; font-size: 20px;'>Itinerary Details</p>
                 
-                <table style='width: 100%; border-collapse: collapse; font-size: 14px; color: #f1f5f9;'>
+                <table style='width: 100%; border-collapse: collapse; font-size: 14px; color: #f1f5f9; table-layout: fixed;'>
                     <tr>
-                        <td style='padding: 8px 0; color: #94a3b8; width: 40%;'>Confirmation No:</td>
-                        <td style='padding: 8px 0; font-family: monospace; font-size: 16px; font-weight: bold;'>{$bookingDetails['booking_number']}</td>
+                        <td style='padding: 8px 0; color: #94a3b8; width: 35%;'>Confirmation No:</td>
+                        <td style='padding: 8px 0; font-family: monospace; font-size: 15px; font-weight: bold; word-break: break-all;'>{$bookingDetails['booking_number']}</td>
                     </tr>
                     <tr>
                         <td style='padding: 8px 0; color: #94a3b8;'>Check-in:</td>
@@ -212,10 +212,10 @@ function sendBookingStatusEmail($userEmail, $userName, $bookingNumber, $newStatu
             <p style='color: #cbd5e1; font-size: 15px; line-height: 1.7; font-weight: 300;'>{$cfg['msg']}</p>
 
             <!-- Booking Info -->
-            <div style='background-color: #0f172a; border: 1px solid #1e293b; padding: 25px; margin: 25px 0;'>
+            <div style='background-color: #0f172a; border: 1px solid #1e293b; padding: 15px; margin: 25px 0;'>
                 <p style='margin: 0 0 15px; color: #d4af37; font-family: Georgia, serif; font-size: 16px;'>Reservation Details</p>
-                <table style='width: 100%; border-collapse: collapse; font-size: 14px; color: #f1f5f9;'>
-                    <tr><td style='padding: 7px 0; color: #94a3b8; width: 40%;'>Booking Ref:</td><td style='font-family: monospace; font-weight: bold; font-size: 16px;'>{$bookingNumber}</td></tr>
+                <table style='width: 100%; border-collapse: collapse; font-size: 14px; color: #f1f5f9; table-layout: fixed;'>
+                    <tr><td style='padding: 7px 0; color: #94a3b8; width: 35%;'>Booking Ref:</td><td style='font-family: monospace; font-weight: bold; font-size: 15px; word-break: break-all;'>{$bookingNumber}</td></tr>
                     <tr><td style='padding: 7px 0; color: #94a3b8;'>Check-in:</td><td>{$checkIn}</td></tr>
                     <tr><td style='padding: 7px 0; color: #94a3b8;'>Check-out:</td><td>{$checkOut}</td></tr>
                     <tr><td style='padding: 7px 0; color: #94a3b8; border-top: 1px dashed #334155;'>New Status:</td><td style='color: {$cfg['color']}; font-weight: bold; border-top: 1px dashed #334155;'>{$cfg['label']}</td></tr>
@@ -282,10 +282,10 @@ function sendPaymentStatusEmail($userEmail, $userName, $bookingNumber, $newPayme
             <p style='color: #cbd5e1; font-size: 15px; line-height: 1.7; font-weight: 300;'>{$cfg['msg']}</p>
 
             <!-- Booking Info -->
-            <div style='background-color: #0f172a; border: 1px solid #1e293b; padding: 25px; margin: 25px 0;'>
+            <div style='background-color: #0f172a; border: 1px solid #1e293b; padding: 15px; margin: 25px 0;'>
                 <p style='margin: 0 0 15px; color: #d4af37; font-family: Georgia, serif; font-size: 16px;'>Payment Details</p>
-                <table style='width: 100%; border-collapse: collapse; font-size: 14px; color: #f1f5f9;'>
-                    <tr><td style='padding: 7px 0; color: #94a3b8; width: 40%;'>Booking Ref:</td><td style='font-family: monospace; font-weight: bold; font-size: 16px;'>{$bookingNumber}</td></tr>
+                <table style='width: 100%; border-collapse: collapse; font-size: 14px; color: #f1f5f9; table-layout: fixed;'>
+                    <tr><td style='padding: 7px 0; color: #94a3b8; width: 35%;'>Booking Ref:</td><td style='font-family: monospace; font-weight: bold; font-size: 15px; word-break: break-all;'>{$bookingNumber}</td></tr>
                     <tr><td style='padding: 7px 0; color: #94a3b8; border-top: 1px dashed #334155;'>Amount:</td><td style='border-top: 1px dashed #334155; color: #d4af37; font-weight: bold;'>{$totalPrice}</td></tr>
                     <tr><td style='padding: 7px 0; color: #94a3b8;'>Payment Status:</td><td style='color: {$cfg['color']}; font-weight: bold;'>{$cfg['label']}</td></tr>
                 </table>
