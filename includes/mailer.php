@@ -38,7 +38,7 @@ function sendBookingConfirmationEmail($userEmail, $userName, $bookingDetails) {
         
         <!-- Header -->
         <div style='text-align: center; padding: 40px 20px; background: linear-gradient(135deg, #0f172a 0%, #020617 100%); border-bottom: 2px solid #d4af37;'>
-            <h1 style='font-family: Georgia, serif; margin: 0; font-size: 28px; letter-spacing: 4px; text-transform: uppercase;'>Grand<span style='color: #d4af37; font-weight: normal;'>Luxe</span></h1>
+            <h1 style='font-family: Georgia, serif; margin: 0; font-size: 28px; letter-spacing: 4px; text-transform: uppercase; color: #ffffff;'>Grand<span style='color: #d4af37; font-weight: normal;'>Luxe</span></h1>
             <p style='color: #94a3b8; font-size: 12px; letter-spacing: 2px; text-transform: uppercase; margin-top: 10px;'>Official Confirmation</p>
         </div>
 
@@ -197,7 +197,7 @@ function sendBookingStatusEmail($userEmail, $userName, $bookingNumber, $newStatu
     <div style='font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; background-color: #020617; color: #ffffff;'>
         <!-- Header -->
         <div style='text-align: center; padding: 40px 20px; border-bottom: 2px solid {$cfg['color']};'>
-            <h1 style='font-family: Georgia, serif; margin: 0; font-size: 26px; letter-spacing: 4px; text-transform: uppercase;'>Grand<span style='color: #d4af37; font-weight: normal;'>Luxe</span></h1>
+            <h1 style='font-family: Georgia, serif; margin: 0; font-size: 26px; letter-spacing: 4px; text-transform: uppercase; color: #ffffff;'>Grand<span style='color: #d4af37; font-weight: normal;'>Luxe</span></h1>
             <p style='color: #94a3b8; font-size: 11px; letter-spacing: 3px; text-transform: uppercase; margin-top: 8px;'>Booking Status Update</p>
         </div>
 
@@ -267,7 +267,7 @@ function sendPaymentStatusEmail($userEmail, $userName, $bookingNumber, $newPayme
     <div style='font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; background-color: #020617; color: #ffffff;'>
         <!-- Header -->
         <div style='text-align: center; padding: 40px 20px; border-bottom: 2px solid {$cfg['color']};'>
-            <h1 style='font-family: Georgia, serif; margin: 0; font-size: 26px; letter-spacing: 4px; text-transform: uppercase;'>Grand<span style='color: #d4af37; font-weight: normal;'>Luxe</span></h1>
+            <h1 style='font-family: Georgia, serif; margin: 0; font-size: 26px; letter-spacing: 4px; text-transform: uppercase; color: #ffffff;'>Grand<span style='color: #d4af37; font-weight: normal;'>Luxe</span></h1>
             <p style='color: #94a3b8; font-size: 11px; letter-spacing: 3px; text-transform: uppercase; margin-top: 8px;'>Payment Status Update</p>
         </div>
 

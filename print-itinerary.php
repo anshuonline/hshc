@@ -266,16 +266,24 @@ $qr_url = "https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=" . url
     <script>
         function downloadPDF() {
             const element = document.querySelector('.a4-page');
+            
+            // Fix html2canvas whitespace bug
+            const originalMargin = element.style.margin;
+            element.style.margin = '0';
+            window.scrollTo(0, 0);
+
             const opt = {
                 margin:       0,
                 filename:     'E-Ticket_<?php echo $booking['booking_number']; ?>.pdf',
                 image:        { type: 'jpeg', quality: 0.98 },
-                html2canvas:  { scale: 2, useCORS: true },
+                html2canvas:  { scale: 2, useCORS: true, scrollY: 0, windowY: 0 },
                 jsPDF:        { unit: 'mm', format: 'a4', orientation: 'portrait' }
             };
             
             // Start download
-            html2pdf().set(opt).from(element).save();
+            html2pdf().set(opt).from(element).save().then(() => {
+                element.style.margin = originalMargin;
+            });
         }
 
         // Automatically download PDF when the page loads
