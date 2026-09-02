@@ -330,39 +330,84 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 </div>
                 
                 <!-- Booking Summary -->
-                <div class="mt-12 p-6 border border-white/10 bg-white/5 backdrop-blur-sm">
-                    <h3 class="text-sm font-sans tracking-[0.2em] uppercase text-white mb-6 border-b border-white/10 pb-4">Reservation Summary</h3>
-                    <div class="space-y-4 font-sans text-sm text-gray-300 tracking-wide font-light">
-                        <div class="flex justify-between">
-                            <span>Base Rate:</span>
-                            <span id="base-price" class="text-white">₹0.00</span>
-                        </div>
-                        <div class="flex justify-between">
-                            <span>Duration (Nights):</span>
-                            <span id="nights" class="text-white">0</span>
-                        </div>
-                        <div class="flex justify-between">
-                            <span>Suites:</span>
-                            <span id="room-count" class="text-white">0</span>
-                        </div>
-                        <div id="extra-charges-row" class="hidden">
-                            <div class="flex justify-between text-accent">
-                                <span>Additional Guests:</span>
-                                <span id="extra-charges">₹0.00</span>
+                <div class="mt-12 relative overflow-hidden" style="border: 1px solid rgba(212,175,55,0.2); background: linear-gradient(135deg, rgba(212,175,55,0.05) 0%, rgba(255,255,255,0.03) 100%); backdrop-filter: blur(10px);">
+                    <!-- Gold top accent line -->
+                    <div style="height: 2px; background: linear-gradient(90deg, transparent, #d4af37, transparent);"></div>
+                    
+                    <div class="p-6">
+                        <!-- Header -->
+                        <div class="flex items-center gap-3 mb-6">
+                            <div style="width:32px;height:32px;background:rgba(212,175,55,0.15);border:1px solid rgba(212,175,55,0.3);display:flex;align-items:center;justify-content:center;">
+                                <i class="fas fa-receipt text-accent text-xs"></i>
                             </div>
-                            <div id="extra-charges-details" class="text-xs text-gray-500 mt-1"></div>
+                            <h3 class="text-xs font-sans tracking-[0.3em] uppercase text-white">Reservation Summary</h3>
                         </div>
-                        <div id="additional-charges-row" class="hidden">
-                            <div class="flex justify-between text-accent">
-                                <span>Taxes & Fees:</span>
-                                <span id="additional-charges">₹0.00</span>
+
+                        <!-- Line Items -->
+                        <div class="space-y-3 font-sans text-sm">
+
+                            <!-- Base Rate -->
+                            <div class="flex justify-between items-center py-2" style="border-bottom: 1px solid rgba(255,255,255,0.06);">
+                                <div class="flex items-center gap-2 text-gray-400">
+                                    <i class="fas fa-bed text-accent/50 w-4 text-center text-xs"></i>
+                                    <span class="tracking-wide text-xs uppercase">Base Rate</span>
+                                </div>
+                                <span id="base-price" class="text-white font-medium">₹0</span>
                             </div>
-                            <div id="additional-charges-details" class="text-xs text-gray-500 mt-1"></div>
+
+                            <!-- Duration -->
+                            <div class="flex justify-between items-center py-2" style="border-bottom: 1px solid rgba(255,255,255,0.06);">
+                                <div class="flex items-center gap-2 text-gray-400">
+                                    <i class="fas fa-moon text-accent/50 w-4 text-center text-xs"></i>
+                                    <span class="tracking-wide text-xs uppercase">Duration</span>
+                                </div>
+                                <span class="text-white font-medium"><span id="nights">0</span> Night(s)</span>
+                            </div>
+
+                            <!-- Suites -->
+                            <div class="flex justify-between items-center py-2" style="border-bottom: 1px solid rgba(255,255,255,0.06);">
+                                <div class="flex items-center gap-2 text-gray-400">
+                                    <i class="fas fa-door-open text-accent/50 w-4 text-center text-xs"></i>
+                                    <span class="tracking-wide text-xs uppercase">Suites</span>
+                                </div>
+                                <span class="text-white font-medium"><span id="room-count">0</span> Room(s)</span>
+                            </div>
+
+                            <!-- Additional Guests (hidden by default) -->
+                            <div id="extra-charges-row" class="hidden">
+                                <div class="flex justify-between items-center py-2" style="border-bottom: 1px solid rgba(255,255,255,0.06);">
+                                    <div class="flex items-center gap-2">
+                                        <i class="fas fa-user-plus text-accent/50 w-4 text-center text-xs"></i>
+                                        <span class="tracking-wide text-xs uppercase text-accent">Additional Guests</span>
+                                    </div>
+                                    <span id="extra-charges" class="text-accent font-medium">₹0</span>
+                                </div>
+                                <div id="extra-charges-details" class="text-xs text-gray-500 mt-1 pl-6 leading-relaxed"></div>
+                            </div>
+
+                            <!-- Taxes & Fees (hidden by default) -->
+                            <div id="additional-charges-row" class="hidden">
+                                <div class="flex justify-between items-center py-2" style="border-bottom: 1px solid rgba(255,255,255,0.06);">
+                                    <div class="flex items-center gap-2">
+                                        <i class="fas fa-percent text-accent/50 w-4 text-center text-xs"></i>
+                                        <span class="tracking-wide text-xs uppercase text-accent">Taxes & Fees</span>
+                                    </div>
+                                    <span id="additional-charges" class="text-accent font-medium">₹0</span>
+                                </div>
+                                <div id="additional-charges-details" class="text-xs text-gray-500 mt-1 pl-6 leading-relaxed space-y-1"></div>
+                            </div>
                         </div>
-                        <div class="border-t border-white/20 pt-4 mt-6">
-                            <div class="flex justify-between items-end">
-                                <span class="text-xs tracking-[0.2em] uppercase text-gray-400">Total Estimate</span>
-                                <span id="total-amount" class="text-2xl font-serif text-accent">₹0.00</span>
+
+                        <!-- Total -->
+                        <div class="mt-6 pt-4" style="border-top: 1px solid rgba(212,175,55,0.3);">
+                            <div class="flex justify-between items-center">
+                                <div>
+                                    <p class="text-xs tracking-[0.25em] uppercase text-gray-400 font-sans">Total Estimate</p>
+                                    <p class="text-xs text-gray-600 font-sans mt-0.5">Incl. all taxes & charges</p>
+                                </div>
+                                <div class="text-right">
+                                    <span id="total-amount" class="text-3xl font-serif" style="color: #d4af37; text-shadow: 0 0 20px rgba(212,175,55,0.3);">₹0</span>
+                                </div>
                             </div>
                         </div>
                     </div>
