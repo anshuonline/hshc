@@ -294,37 +294,7 @@ $manager_count = $stmt->fetch(PDO::FETCH_ASSOC)['count'];
 </head>
 <body class="bg-gray-50 min-h-screen font-sans">
     <!-- Navigation -->
-    <nav class="bg-gradient-to-r from-primary to-secondary shadow-lg">
-        <div class="max-w-7xl mx-auto px-4">
-            <div class="flex items-center justify-between h-16">
-                <div class="flex items-center">
-                    <div class="flex-shrink-0">
-                        <span class="text-white font-bold text-xl">Demo Hotel & Resort Admin</span>
-                    </div>
-                    <div class="hidden md:block">
-                        <div class="ml-10 flex items-baseline space-x-4">
-                            <a href="dashboard.php" class="text-blue-100 hover:bg-blue-600 hover:text-white px-3 py-2 rounded-md text-sm font-medium transition duration-200">Dashboard</a>
-                            <a href="hotels.php" class="text-blue-100 hover:bg-blue-600 hover:text-white px-3 py-2 rounded-md text-sm font-medium transition duration-200">Hotels</a>
-                            <a href="images.php" class="text-blue-100 hover:bg-blue-600 hover:text-white px-3 py-2 rounded-md text-sm font-medium transition duration-200">Images</a>
-                            <a href="rooms.php" class="text-blue-100 hover:bg-blue-600 hover:text-white px-3 py-2 rounded-md text-sm font-medium transition duration-200">Rooms</a>
-                            <a href="admins.php" class="bg-blue-700 text-white px-3 py-2 rounded-md text-sm font-medium">Admins</a>
-                        </div>
-                    </div>
-                </div>
-                <div class="hidden md:block">
-                    <div class="ml-4 flex items-center md:ml-6">
-                        <span class="text-blue-100 mr-4">Welcome, <?php echo htmlspecialchars($_SESSION['admin_username']); ?>!</span>
-                        <?php if ($is_manager): ?>
-                            <span class="bg-accent text-white px-2 py-1 rounded text-xs mr-4">Manager</span>
-                        <?php endif; ?>
-                        <a href="logout.php" class="text-blue-100 hover:bg-blue-600 hover:text-white px-3 py-2 rounded-md text-sm font-medium transition duration-200">
-                            <i class="fas fa-sign-out-alt mr-1"></i>Logout
-                        </a>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </nav>
+    <?php include 'includes/navbar.php'; ?>
 
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         <!-- Header Section -->

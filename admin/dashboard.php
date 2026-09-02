@@ -86,71 +86,7 @@ try {
     </script>
 </head>
 <body class="bg-gray-50 min-h-screen font-sans">
-    <!-- Modern Responsive Navigation -->
-    <nav class="bg-white shadow-md">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex justify-between h-16">
-                <div class="flex items-center">
-                    <div class="flex-shrink-0 flex items-center">
-                        <span class="text-primary font-bold text-xl">Demo Hotel & Resort</span>
-                        <span class="ml-2 text-gray-500 text-sm">Admin</span>
-                    </div>
-                </div>
-                
-                <!-- Desktop Menu -->
-                <div class="hidden md:flex items-center space-x-1">
-                    <a href="dashboard.php" class="bg-primary text-white px-4 py-2 rounded-lg text-sm font-medium">Dashboard</a>
-                    <div class="relative" id="manage-dropdown">
-                        <button class="text-gray-700 hover:text-primary px-4 py-2 rounded-lg text-sm font-medium flex items-center" id="manage-button">
-                            Manage <i class="fas fa-chevron-down ml-1 text-xs"></i>
-                        </button>
-                        <div class="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg py-1 hidden z-50" id="manage-menu">
-                            <a href="hotels.php" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Retreat</a>
-                            <a href="images.php" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Images</a>
-                            <a href="rooms.php" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Rooms</a>
-                            <a href="bookings.php" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Bookings</a>
-                            <a href="subscribers.php" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Subscribers</a>
-                            <a href="reviews.php" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Reviews</a>
-                            <a href="admins.php" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Admins</a>
-                        </div>
-                    </div>
-                    <span class="text-gray-700 px-4 py-2 rounded-lg text-sm font-medium flex items-center">
-                        <i class="fas fa-user-circle mr-1"></i><?php echo htmlspecialchars($_SESSION['admin_username']); ?>
-                    </span>
-                    <a href="logout.php" class="text-gray-700 hover:text-primary px-4 py-2 rounded-lg text-sm font-medium flex items-center">
-                        <i class="fas fa-sign-out-alt mr-1"></i>Logout
-                    </a>
-                </div>
-                
-                <!-- Mobile menu button -->
-                <div class="md:hidden flex items-center">
-                    <button id="mobile-menu-button" class="text-gray-700 hover:text-primary">
-                        <i class="fas fa-bars text-xl"></i>
-                    </button>
-                </div>
-            </div>
-        </div>
-        
-        <!-- Mobile Menu -->
-        <div id="mobile-menu" class="md:hidden hidden bg-white border-t">
-            <div class="px-2 pt-2 pb-3 space-y-1 sm:px-3">
-                <a href="dashboard.php" class="bg-primary text-white block px-3 py-2 rounded-md text-base font-medium">Dashboard</a>
-                <a href="hotels.php" class="text-gray-700 hover:bg-gray-100 block px-3 py-2 rounded-md text-base font-medium">Hotels</a>
-                <a href="images.php" class="text-gray-700 hover:bg-gray-100 block px-3 py-2 rounded-md text-base font-medium">Images</a>
-                <a href="rooms.php" class="text-gray-700 hover:bg-gray-100 block px-3 py-2 rounded-md text-base font-medium">Rooms</a>
-                <a href="bookings.php" class="text-gray-700 hover:bg-gray-100 block px-3 py-2 rounded-md text-base font-medium">Bookings</a>
-                <a href="subscribers.php" class="text-gray-700 hover:bg-gray-100 block px-3 py-2 rounded-md text-base font-medium">Subscribers</a>
-                <a href="reviews.php" class="text-gray-700 hover:bg-gray-100 block px-3 py-2 rounded-md text-base font-medium">Reviews</a>
-                <a href="admins.php" class="text-gray-700 hover:bg-gray-100 block px-3 py-2 rounded-md text-base font-medium">Admins</a>
-                <div class="px-3 py-2 text-gray-700 text-base font-medium border-t border-gray-200 mt-2 pt-2">
-                    Welcome, <?php echo htmlspecialchars($_SESSION['admin_username']); ?>!
-                </div>
-                <a href="logout.php" class="text-gray-700 hover:bg-gray-100 block px-3 py-2 rounded-md text-base font-medium">Logout</a>
-            </div>
-        </div>
-    </nav>
-
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+    <?php include 'includes/navbar.php'; ?><div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         <div class="mb-8">
             <h1 class="text-3xl font-bold text-gray-900">Dashboard</h1>
             <p class="mt-2 text-gray-600">Welcome to your admin panel</p>

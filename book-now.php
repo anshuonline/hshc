@@ -2,6 +2,7 @@
 session_start();
 include 'config/db.php';
 include 'includes/booking_utils.php';
+include 'includes/mailer.php';
 
 // Redirect to login if not logged in
 if (!isset($_SESSION['user_logged_in']) || !$_SESSION['user_logged_in']) {
@@ -151,6 +152,19 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 $room_id,
                 $totalPrice
             ]);
+            
+            // Prepare booking details array for the email
+            $bookingDetails = [
+                'booking_number' => $bookingNumber,
+                'check_in' => $check_in,
+                'check_out' => $check_out,
+                'adults' => $adults,
+                'children' => $children,
+                'total_price' => $totalPrice
+            ];
+            
+            // Send Confirmation Email
+            sendBookingConfirmationEmail($user['email'], $user['name'], $bookingDetails);
             
             $success = 'Booking submitted successfully!';
         } catch (PDOException $e) {

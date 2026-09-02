@@ -368,34 +368,7 @@ if ($room_id > 0) {
 </head>
 <body class="bg-gray-50">
     <!-- Navigation -->
-    <nav class="bg-indigo-600 text-white shadow-lg">
-        <div class="max-w-7xl mx-auto px-4">
-            <div class="flex items-center justify-between h-16">
-                <div class="flex items-center">
-                    <div class="flex-shrink-0">
-                        <span class="text-xl font-bold">Demo Hotel & Resort Admin</span>
-                    </div>
-                    <div class="hidden md:block">
-                        <div class="ml-10 flex items-baseline space-x-2">
-                            <a href="dashboard.php" class="nav-link">Dashboard</a>
-                            <a href="hotels.php" class="nav-link">Hotels</a>
-                            <a href="images.php" class="nav-link">Images</a>
-                            <a href="rooms.php" class="nav-link active">Rooms</a>
-                            <a href="admins.php" class="nav-link">Admins</a>
-                        </div>
-                    </div>
-                </div>
-                <div class="hidden md:block">
-                    <div class="ml-4 flex items-center md:ml-6">
-                        <span class="mr-4 text-sm">Welcome, <?php echo htmlspecialchars($_SESSION['admin_username']); ?>!</span>
-                        <a href="logout.php" class="btn-outline text-white border-white hover:bg-white hover:text-indigo-600">
-                            <i class="fas fa-sign-out-alt mr-2"></i>Logout
-                        </a>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </nav>
+    <?php include 'includes/navbar.php'; ?>
 
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         <div class="mb-6 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
