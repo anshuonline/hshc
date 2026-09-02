@@ -1,6 +1,7 @@
 <?php
 session_start();
 include '../config/db.php';
+include '../includes/mailer.php';
 
 // Check if admin is logged in
 if (!isset($_SESSION['admin_logged_in']) || !$_SESSION['admin_logged_in']) {
@@ -18,6 +19,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['update_status'])) {
             $stmt = $pdo->prepare("UPDATE bookings SET status = ? WHERE id = ?");
             $stmt->execute([$status, $booking_id]);
             $message = 'Booking status updated successfully!';
+            
+            // Fetch booking + user info and send email
+            $stmt2 = $pdo->prepare("SELECT b.*, u.email as user_email, u.name as user_name FROM bookings b LEFT JOIN users u ON b.user_id = u.id WHERE b.id = ?");
+            $stmt2->execute([$booking_id]);
+            $bk = $stmt2->fetch(PDO::FETCH_ASSOC);
+            if ($bk && !empty($bk['user_email'])) {
+                sendBookingStatusEmail($bk['user_email'], $bk['user_name'] ?: $bk['guest_name'], $bk['booking_number'], $status, $bk);
+            }
         } catch (PDOException $e) {
             $error = 'Failed to update booking status.';
         }
@@ -34,6 +43,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['update_payment_status
             $stmt = $pdo->prepare("UPDATE bookings SET payment_status = ? WHERE id = ?");
             $stmt->execute([$payment_status, $booking_id]);
             $message = 'Payment status updated successfully!';
+            
+            // Fetch booking + user info and send email
+            $stmt2 = $pdo->prepare("SELECT b.*, u.email as user_email, u.name as user_name FROM bookings b LEFT JOIN users u ON b.user_id = u.id WHERE b.id = ?");
+            $stmt2->execute([$booking_id]);
+            $bk = $stmt2->fetch(PDO::FETCH_ASSOC);
+            if ($bk && !empty($bk['user_email'])) {
+                sendPaymentStatusEmail($bk['user_email'], $bk['user_name'] ?: $bk['guest_name'], $bk['booking_number'], $payment_status, $bk);
+            }
         } catch (PDOException $e) {
             $error = 'Failed to update payment status.';
         }
