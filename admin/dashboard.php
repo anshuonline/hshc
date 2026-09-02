@@ -268,28 +268,6 @@ try {
         </div>
     </div>
     
-    <script>
-        // Mobile menu toggle
-        document.getElementById('mobile-menu-button').addEventListener('click', function() {
-            const mobileMenu = document.getElementById('mobile-menu');
-            mobileMenu.classList.toggle('hidden');
-        });
-        
-        // Manage dropdown toggle
-        const manageButton = document.getElementById('manage-button');
-        const manageMenu = document.getElementById('manage-menu');
-        
-        manageButton.addEventListener('click', function(e) {
-            e.stopPropagation();
-            manageMenu.classList.toggle('hidden');
-        });
-        
-        // Close dropdown when clicking outside
-        document.addEventListener('click', function(e) {
-            if (!manageButton.contains(e.target) && !manageMenu.contains(e.target)) {
-                manageMenu.classList.add('hidden');
-            }
-        });
-    </script>
+
 </body>
 </html>
